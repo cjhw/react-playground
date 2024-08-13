@@ -38,6 +38,9 @@ importers:
       classnames:
         specifier: ^2.5.1
         version: 2.5.1
+      copy-to-clipboard:
+        specifier: ^3.3.3
+        version: 3.3.3
       fflate:
         specifier: ^0.8.2
         version: 0.8.2
