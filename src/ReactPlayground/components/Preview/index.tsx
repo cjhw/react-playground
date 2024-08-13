@@ -6,6 +6,14 @@ import { IMPORT_MAP_FILE_NAME } from "../../files";
 
 export default function Preview() {
 
+    const { files} = useContext(PlaygroundContext)
+    const [compiledCode, setCompiledCode] = useState('')
+
+    useEffect(() => {
+        const res = compile(files);
+        setCompiledCode(res);
+    }, [files]);
+
     const getIframeUrl = () => {
         const res = iframeRaw.replace(
             '<script type="importmap"></script>', 
@@ -19,18 +27,11 @@ export default function Preview() {
         return URL.createObjectURL(new Blob([res], { type: 'text/html' }))
     }
 
-    const { files} = useContext(PlaygroundContext)
-    const [compiledCode, setCompiledCode] = useState('')
-    const [iframeUrl, setIframeUrl] = useState(getIframeUrl());
-
-    useEffect(() => {
-        const res = compile(files);
-        setCompiledCode(res);
-    }, [files]);
-
     useEffect(() => {
         setIframeUrl(getIframeUrl())
     }, [files[IMPORT_MAP_FILE_NAME].value, compiledCode]);
+
+    const [iframeUrl, setIframeUrl] = useState(getIframeUrl());
 
     return <div style={{height: '100%'}}>
         <iframe
